@@ -7,7 +7,6 @@ package view;
 
 import bean.Category;
 import bean.News;
-import com.hexidec.ekit.Ekit;
 import com.hexidec.ekit.EkitCore;
 import controller.ControllerCat;
 import controller.ControllerNew;
@@ -23,12 +22,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
+import static jdk.nashorn.internal.objects.NativeRegExp.source;
 import model.ModelNews;
 import render.RenderComboBoxModelCat;
 
@@ -44,6 +46,7 @@ public class pnNew extends javax.swing.JPanel {
     private ControllerNew controller;
     private ControllerCat controllerCat;
     private String imageAvatar = "imagehere.png";
+    private Path sourcedImage = null;
     private Category objCat;
     private EkitCore ekitCore = new EkitCore();
 
@@ -563,22 +566,16 @@ public class pnNew extends javax.swing.JPanel {
         JFileChooser chooser = new JFileChooser("C:\\Users\\vuongluis\\Pictures\\");
         int result = chooser.showDialog(null, "Upload Ảnh");
         if(result == JFileChooser.APPROVE_OPTION){
-            try {
-                File file = chooser.getSelectedFile();
-                // lấy tên hình ảnh
-                String fileName = file.getName();
-                // validate or filter file extension
-                
-                // file.getAbsoluteFile();
-                Path source = Paths.get( file.getAbsolutePath());
-                Path target = Paths.get("files/"+fileName);
-                /** If the picture is exist so this picture replace that picture. **/
-                Files.copy(source,target ,StandardCopyOption.REPLACE_EXISTING );
-                Image image =new ImageIcon("files/"+fileName).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                lbAvatar.setIcon(new ImageIcon(image));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            File file = chooser.getSelectedFile();
+            String fileName = file.getName();
+            Path source = Paths.get( file.getAbsolutePath());
+//            System.out.println(""
+//                    + "tên file: " + fileName
+//                    + "tên đường dẫn: " + source);
+            sourcedImage = source;
+            imageAvatar = fileName;
+            Image image = new ImageIcon(source.toString()).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            lbAvatar.setIcon(new ImageIcon(image));
         }
     }//GEN-LAST:event_btnUploadActionPerformed
 
@@ -609,6 +606,7 @@ public class pnNew extends javax.swing.JPanel {
               JOptionPane.showMessageDialog(new pnCat(), "Thêm mới thất bại","Thông báo",JOptionPane.WARNING_MESSAGE);
           } 
        }
+       funcImages();
     }//GEN-LAST:event_btThemActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
@@ -702,6 +700,7 @@ public class pnNew extends javax.swing.JPanel {
         }else{
             JOptionPane.showMessageDialog(new pnCat(), "Chưa chọn dòng để cập nhật","Thông báo",JOptionPane.WARNING_MESSAGE);
         }
+        funcImages();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnNhapLaiFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapLaiFActionPerformed
@@ -857,5 +856,17 @@ public class pnNew extends javax.swing.JPanel {
                 break;
         }
         return result;
+    }
+
+    private void funcImages() {
+        Path target = Paths.get("files/"+imageAvatar);
+        try {
+            /** If the picture is exist so this picture replace that picture. **/
+            Files.copy(sourcedImage,target ,StandardCopyOption.REPLACE_EXISTING );
+        } catch (IOException ex) {
+            Logger.getLogger(pnNew.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Image image =new ImageIcon("files/"+imageAvatar).getImage().getScaledInstance(100, 100,Image.SCALE_SMOOTH);
+        lbAvatar.setIcon(new ImageIcon(image));
     }
 }

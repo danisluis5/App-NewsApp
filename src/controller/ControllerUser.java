@@ -39,7 +39,11 @@ public class ControllerUser extends AbstractTableModel{
     public ControllerUser(JTable table,User objUser){
         this.table = table;
         model = new ModelUser();
-        alItem = model.getItem(objUser);
+        if("admin".equals(objUser.getUsername())){
+            alItem = model.getList();
+        }else{
+            alItem = model.getItem(objUser);
+        }
     }
     @Override
     public int getRowCount() {

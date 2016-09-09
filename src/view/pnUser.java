@@ -339,11 +339,16 @@ public class pnUser extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         int row = tbMain.getSelectedRow();
-        String password = tfPass.getPassword().toString();
+        String password = new String(tfPass.getPassword());
         String username = tfUser.getText();
         String fullname = tfFull.getText();
         boolean active = cbActive.isSelected();
         User objUser = new User(0, username,password, fullname, active);
+//        System.out.println(""
+//                + ":" + username
+//                + ":" + password
+//                + ":" + fullname
+//                + ":" + active);
         if(isValid(objUser, "add")){
             if(!new ValidateDB().user_exist(objUser.getUsername())){
                 int result = controller.addItem(objUser,row);
@@ -361,24 +366,28 @@ public class pnUser extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         int row = tbMain.getSelectedRow();
-        int id_user = Integer.parseInt(tfId.getText());
-        String username = tfUser.getText();
-        String fullname = tfFull.getText();
-        String password = tfPass.getPassword().toString();
-        boolean active = cbActive.isSelected();
-        User objUser = new User(id_user, username,password, fullname, active);
-        if(isValid(objUser, "edit")){
-            if(!new ValidateDB().user_exist(username, id_user)){
-                int result = controller.editItem(objUser,row);
-                if(result > 0){
-                    this.resetForm();
-                    JOptionPane.showConfirmDialog(new pnUser(), "Cập nhật thành công","Thông báo",JOptionPane.WARNING_MESSAGE);
+        if(row >= 0){
+            int id_user = Integer.parseInt(tfId.getText());
+            String username = tfUser.getText();
+            String fullname = tfFull.getText();
+            String password = new String(tfPass.getPassword());
+            boolean active = cbActive.isSelected();
+            User objUser = new User(id_user, username,password, fullname, active);
+            if(isValid(objUser, "edit")){
+                if(!new ValidateDB().user_exist(username, id_user)){
+                    int result = controller.editItem(objUser,row);
+                    if(result > 0){
+                        this.resetForm();
+                        JOptionPane.showConfirmDialog(new pnUser(), "Cập nhật thành công","Thông báo",JOptionPane.WARNING_MESSAGE);
+                    }else{
+                        JOptionPane.showConfirmDialog(new pnUser(), "Cập nhật thất bại","Thông báo",JOptionPane.WARNING_MESSAGE);
+                    }
                 }else{
-                    JOptionPane.showConfirmDialog(new pnUser(), "Cập nhật thất bại","Thông báo",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showConfirmDialog(new pnUser(), "Tên đăng nhập bị trùng trong hệ thống","Thông báo",JOptionPane.WARNING_MESSAGE);
                 }
-            }else{
-                JOptionPane.showConfirmDialog(new pnUser(), "Tên đăng nhập bị trùng trong hệ thống","Thông báo",JOptionPane.WARNING_MESSAGE);
             }
+        }else{
+            JOptionPane.showConfirmDialog(new pnCat(), "Bạn chưa chọn dòng để cập nhật","Thông báo",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
@@ -388,25 +397,29 @@ public class pnUser extends javax.swing.JPanel {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         int row = tbMain.getSelectedRow();
-        int id_user = 0;
-        if(tfId.getText().isEmpty()){
-            id_user = 0;
-        }else{
-            id_user = Integer.parseInt(tfId.getText());
-        }
-        // JOptionPane.showMessageDialog(null, id_user);
-        String username = tfUser.getText();
-        String fullname = tfFull.getText();
-        boolean active = cbActive.isSelected();
-        User objUser = new User(id_user,username,"",fullname,active);
-        if(isValid(objUser, "del")){
-            int result = controller.deleteItem(objUser,row);
-            if(result > 0){
-                this.resetForm();
-                JOptionPane.showConfirmDialog(new pnUser(), "Xóa thành công","Thông báo",JOptionPane.WARNING_MESSAGE);
+        if(row >= 0){
+            int id_user = 0;
+            if(tfId.getText().isEmpty()){
+                id_user = 0;
             }else{
-                JOptionPane.showConfirmDialog(new pnUser(), "Xóa thất bại","Thông báo",JOptionPane.WARNING_MESSAGE);
+                id_user = Integer.parseInt(tfId.getText());
             }
+            // JOptionPane.showMessageDialog(null, id_user);
+            String username = tfUser.getText();
+            String fullname = tfFull.getText();
+            boolean active = cbActive.isSelected();
+            User objUser = new User(id_user,username,"",fullname,active);
+            if(isValid(objUser, "del")){
+                int result = controller.deleteItem(objUser,row);
+                if(result > 0){
+                    this.resetForm();
+                    JOptionPane.showConfirmDialog(new pnUser(), "Xóa thành công","Thông báo",JOptionPane.WARNING_MESSAGE);
+                }else{
+                    JOptionPane.showConfirmDialog(new pnUser(), "Xóa thất bại","Thông báo",JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showConfirmDialog(new pnCat(), "Bạn chưa chọn dòng để xóa","Thông báo",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
