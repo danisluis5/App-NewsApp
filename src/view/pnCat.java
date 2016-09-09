@@ -313,6 +313,8 @@ public class pnCat extends javax.swing.JPanel {
 
     private void btNhapLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNhapLaiActionPerformed
         this.resetForm();
+        
+        tfName.requestFocus();
     }//GEN-LAST:event_btNhapLaiActionPerformed
 
     private void btSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSuaActionPerformed

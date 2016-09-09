@@ -23,10 +23,10 @@ public class ControllerUser extends AbstractTableModel{
     private JTable table;
     private ModelUser model;
     private String[] cols = {
-        "<html><center><p style='color:blue;'>STT</p></center></html>",
-        "<html><p style='color:blue;'>Tên Đăng Nhập</p></html>",
-        "<html><p style='color:blue;'>Họ Và Tên</p></html>",
-        "<html><p style='color:blue;'>Kích Hoạt</p></html>"
+        "<html><center><p style='color:#00434a;'>STT</p></center></html>",
+        "<html><p style='color:#00434a;'>Tên Đăng Nhập</p></html>",
+        "<html><p style='color:#00434a;'>Họ Và Tên</p></html>",
+        "<html><p style='color:#00434a;'>Kích Hoạt</p></html>"
     };
     
     private ArrayList<User> alItem = new ArrayList<User>();
@@ -35,6 +35,11 @@ public class ControllerUser extends AbstractTableModel{
         this.table = table;
         model = new ModelUser();
         alItem = model.getList();
+    }
+    public ControllerUser(JTable table,User objUser){
+        this.table = table;
+        model = new ModelUser();
+        alItem = model.getItem(objUser);
     }
     @Override
     public int getRowCount() {
@@ -99,39 +104,6 @@ public class ControllerUser extends AbstractTableModel{
         table.getColumnModel().getColumn(2).setPreferredWidth(500);
         table.getColumnModel().getColumn(3).setPreferredWidth(500);
     }
-
-//    public int addItem(Category objCat) {
-//        int result = 1;
-//        // thêm vào database
-//        
-//        // thêm vào model
-//        alItem.add(objCat);
-//        this.fireTableDataChanged();
-//        table.scrollRectToVisible(table.getCellRect(this.getRowCount()-1, 0, true));
-//        return result;
-//    }
-//
-//    public int deleteItem(Category objCat, int row) {
-//        int result = 1;
-//        // xóa trong database
-//        
-//        // xóa trong model
-//        int rowmodel = table.convertRowIndexToModel(row);
-//        alItem.remove(rowmodel);
-//        this.fireTableDataChanged();
-//        return result;
-//    }
-//
-//    public int editItem(Category objCat, int row) {
-//        int result = 1;
-//        // xóa trong database
-//        
-//        // xóa trong model
-//        int rowModel=table.convertRowIndexToModel(row);
-//        alItem.set(rowModel,objCat);
-//        this.fireTableDataChanged();
-//        return result;
-//    }
 
     public int addItem(User objUser, int row) {
         int result = 0;

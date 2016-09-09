@@ -20,7 +20,7 @@ public class FrMain extends javax.swing.JFrame {
     /**
      * Creates new form FrMain
      */
-    private User objUser = new User();
+    private User user = new User();
     
     public FrMain(User objUser) {
         initComponents();
@@ -37,10 +37,9 @@ public class FrMain extends javax.swing.JFrame {
         this.btTinTuc.setBackground(Color.decode("#f4f6f5"));
         this.btTinTuc.setForeground(Color.decode("#03503f"));
                        
-        if(objUser!=null){
-            objUser = objUser;
-            this.titleFr.setText("Chào "+objUser.getUsername());    
-        }
+        titleFr.setText("Xin chào: "+objUser.getFullname());
+        user.setUsername(objUser.getUsername());
+        
         pnCenter.removeAll();
         pnCenter.add(new pnTitle(),BorderLayout.CENTER);
         pnCenter.revalidate(); // update again
@@ -115,6 +114,7 @@ public class FrMain extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(242, 242, 242));
 
         titleFr.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
+        titleFr.setForeground(new java.awt.Color(3, 80, 63));
         titleFr.setText(":: NewsApp ::");
         jPanel1.add(titleFr);
 
@@ -129,7 +129,6 @@ public class FrMain extends javax.swing.JFrame {
         Last.setBackground(new java.awt.Color(242, 242, 242));
         Last.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("<html>\nCopyright by @ VinaEnter Edu\n</html>");
         Last.add(jLabel1);
 
@@ -170,7 +169,7 @@ public class FrMain extends javax.swing.JFrame {
     private void btNguoiDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNguoiDungActionPerformed
         pnCenter.removeAll();
         titleFr.setText("<html><p style=\"color:#00434a;\">Quản Lý Người Dùng</p></html>");
-        pnCenter.add(new pnUser(),BorderLayout.CENTER);
+        pnCenter.add(new pnUser(user),BorderLayout.CENTER);
         pnCenter.revalidate();
     }//GEN-LAST:event_btNguoiDungActionPerformed
 

@@ -33,6 +33,23 @@ public class ModelUser {
         mConnect = new LibraryConnectDb();
     }
 
+    public ArrayList<User> getItem(User objUser){
+        ArrayList<User> alItem = new ArrayList<>();
+        conn = mConnect.getConnectMySQL();
+        
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, objUser.getUsername());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                alItem.add(new User(rs.getInt("id_user"), rs.getString("username"), rs.getString("password"), rs.getString("fullname"), rs.getBoolean("active")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModelUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alItem;
+    }
     public ArrayList<User> getList(){
         ArrayList<User> alItem = new ArrayList<>();
         
@@ -134,7 +151,6 @@ public class ModelUser {
     
     public User getUserByUsername(String username){
         User objUser = null;
-        
         conn = mConnect.getConnectMySQL();
         String sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
         try {
@@ -161,7 +177,6 @@ public class ModelUser {
 
     public User getUserByUsernamePassword(String user, String pass) {
         User objUser = null;
-        
         conn = mConnect.getConnectMySQL();
         String sql = "SELECT * FROM users WHERE username = ? && password = ? LIMIT 1";
         try {
@@ -183,7 +198,6 @@ public class ModelUser {
                 Logger.getLogger(ModelUser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
         return objUser;
     }
 }

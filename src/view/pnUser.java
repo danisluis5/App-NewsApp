@@ -26,9 +26,17 @@ public class pnUser extends javax.swing.JPanel {
      */
     private ControllerUser controller; 
     
-    public pnUser() {
+    public pnUser(){
         initComponents();
         controller = new ControllerUser(tbMain);
+        controller.loadTable();
+        tfPass.setEchoChar('•');
+        this.tfId.setEditable(false);
+    }
+    
+    public pnUser(User objUser) {
+        initComponents();
+        controller = new ControllerUser(tbMain,objUser);
         controller.loadTable();
         tfPass.setEchoChar('•');
         this.tfId.setEditable(false);
@@ -114,6 +122,7 @@ public class pnUser extends javax.swing.JPanel {
         jPanel9.add(btTimKiem);
 
         btActive.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btActive.setForeground(java.awt.Color.green);
         btActive.setText("v");
         btActive.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,7 +339,7 @@ public class pnUser extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         int row = tbMain.getSelectedRow();
-        String password = tfPass.getText();
+        String password = tfPass.getPassword().toString();
         String username = tfUser.getText();
         String fullname = tfFull.getText();
         boolean active = cbActive.isSelected();
@@ -355,7 +364,7 @@ public class pnUser extends javax.swing.JPanel {
         int id_user = Integer.parseInt(tfId.getText());
         String username = tfUser.getText();
         String fullname = tfFull.getText();
-        String password = tfPass.getText();
+        String password = tfPass.getPassword().toString();
         boolean active = cbActive.isSelected();
         User objUser = new User(id_user, username,password, fullname, active);
         if(isValid(objUser, "edit")){
@@ -410,16 +419,14 @@ public class pnUser extends javax.swing.JPanel {
     }//GEN-LAST:event_tbMainKeyReleased
 
     private void btActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btActiveActionPerformed
-        if(cbActiveF.isEnabled()){
-            cbActiveF.setEnabled(false);
-            cbActiveF.setSelected(true);
+        if("v".equals(btActive.getText())){
             btActive.setText("x");
-            btActive.setForeground(Color.red);
+            btActive.setForeground(Color.RED);
+            cbActiveF.setEnabled(false);
         }else{            
-            cbActiveF.setEnabled(true);
-            cbActiveF.setSelected(false);
             btActive.setText("v");
-            btActive.setForeground(Color.blue);
+            cbActiveF.setEnabled(true);
+            btActive.setForeground(Color.GREEN);
         }
     }//GEN-LAST:event_btActiveActionPerformed
 

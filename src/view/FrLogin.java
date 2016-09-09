@@ -29,6 +29,7 @@ public class FrLogin extends javax.swing.JFrame{
         this.setLocationRelativeTo(this);
         this.setResizable(false);
         tfPass.setEchoChar('•');
+        tfUser.requestFocus();
         demo = this;
         this.addMouseListener(new MouseListener() {
             @Override

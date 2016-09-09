@@ -7,23 +7,26 @@ package view;
 
 import bean.Category;
 import bean.News;
+import com.hexidec.ekit.Ekit;
+import com.hexidec.ekit.EkitCore;
 import controller.ControllerCat;
 import controller.ControllerNew;
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelNews;
@@ -42,6 +45,8 @@ public class pnNew extends javax.swing.JPanel {
     private ControllerCat controllerCat;
     private String imageAvatar = "imagehere.png";
     private Category objCat;
+    private EkitCore ekitCore = new EkitCore();
+
     
     public pnNew() {
         initComponents();
@@ -52,6 +57,33 @@ public class pnNew extends javax.swing.JPanel {
         controller.loadTable();
         controllerCat.loadCategory(cbDanhMuc, false, null);
         controllerCat.loadCategory(cbDanhMucF, true, null);
+        
+        btnEkitEditor.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnEkitEditor.setIcon(new ImageIcon(getClass().getResource("/images/edit-icon.gif")));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnEkitEditor.setIcon(new ImageIcon(getClass().getResource("/images/text-editor.png")));
+            }
+        });
     }
 
     /**
@@ -73,7 +105,7 @@ public class pnNew extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnEkitEditor = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
@@ -94,8 +126,8 @@ public class pnNew extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        btnNhapLaiF = new javax.swing.JButton();
+        btnThoatF = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -148,10 +180,15 @@ public class pnNew extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel7.setText("Chi tiết:");
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/text-editor.png"))); // NOI18N
-        jButton2.setText("Soạn");
-        jButton2.setContentAreaFilled(false);
+        btnEkitEditor.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        btnEkitEditor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/text-editor.png"))); // NOI18N
+        btnEkitEditor.setText("Soạn");
+        btnEkitEditor.setContentAreaFilled(false);
+        btnEkitEditor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEkitEditorActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(242, 242, 242));
         jPanel1.setForeground(new java.awt.Color(242, 242, 242));
@@ -240,7 +277,6 @@ public class pnNew extends javax.swing.JPanel {
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
                     .addGroup(LeftLayout.createSequentialGroup()
                         .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -261,17 +297,19 @@ public class pnNew extends javax.swing.JPanel {
                     .addGroup(LeftLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnEkitEditor))
                     .addGroup(LeftLayout.createSequentialGroup()
-                        .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(LeftLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(spDate, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(LeftLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbDanhMuc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(LeftLayout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(spDate, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(LeftLayout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(cbDanhMuc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -307,12 +345,11 @@ public class pnNew extends javax.swing.JPanel {
                             .addComponent(jLabel6)
                             .addComponent(cbDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lbAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jButton2))
+                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEkitEditor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -345,15 +382,25 @@ public class pnNew extends javax.swing.JPanel {
         });
         jPanel3.add(btnTimKiem);
 
-        jButton8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edit.gif"))); // NOI18N
-        jButton8.setText("Nhập lại");
-        jPanel3.add(jButton8);
+        btnNhapLaiF.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnNhapLaiF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edit.gif"))); // NOI18N
+        btnNhapLaiF.setText("Nhập lại");
+        btnNhapLaiF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhapLaiFActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnNhapLaiF);
 
-        jButton9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hr.gif"))); // NOI18N
-        jButton9.setText("Tắt");
-        jPanel3.add(jButton9);
+        btnThoatF.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnThoatF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hr.gif"))); // NOI18N
+        btnThoatF.setText("Tắt");
+        btnThoatF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThoatFActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnThoatF);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel9.setText("ID:");
@@ -377,18 +424,23 @@ public class pnNew extends javax.swing.JPanel {
         cbDanhMucF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbDanhMucF.setPreferredSize(new java.awt.Dimension(56, 28));
 
-        spDateFY.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(1472989020395L), null, java.util.Calendar.DAY_OF_MONTH));
+        spDateFY.setModel(new javax.swing.SpinnerDateModel());
         spDateFY.setEditor(new javax.swing.JSpinner.DateEditor(spDateFY, "dd/MM/yyyy HH:mm:ss"));
         spDateFY.setPreferredSize(new java.awt.Dimension(29, 28));
 
-        spDateFX.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(1472989012324L), null, java.util.Calendar.DAY_OF_MONTH));
+        spDateFX.setModel(new javax.swing.SpinnerDateModel());
         spDateFX.setEditor(new javax.swing.JSpinner.DateEditor(spDateFX, "dd/MM/yyyy HH:mm:ss"));
         spDateFX.setPreferredSize(new java.awt.Dimension(29, 28));
 
-        btnDate.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        btnDate.setForeground(new java.awt.Color(0, 255, 51));
+        btnDate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnDate.setForeground(java.awt.Color.green);
         btnDate.setText("V");
         btnDate.setPreferredSize(new java.awt.Dimension(73, 28));
+        btnDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -570,7 +622,7 @@ public class pnNew extends javax.swing.JPanel {
         RowFilter<AbstractTableModel,Object> filterID = RowFilter.regexFilter(id, 0);
         
         String name = tfNameF.getText();
-        RowFilter<AbstractTableModel,Object> filterName = RowFilter.regexFilter("(?i)"+name, 1);
+        RowFilter<AbstractTableModel,Object> filterName = RowFilter.regexFilter(name, 1);
         
         alFilter.add(filterID);
         alFilter.add(filterName);
@@ -589,14 +641,15 @@ public class pnNew extends javax.swing.JPanel {
         }
 
         // tìm ngày
-        Date dateFrom = (Date) spDateFX.getValue();
-        RowFilter<AbstractTableModel,Object> filterDateFrom = RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, dateFrom, 3);
-        alFilter.add(filterDateFrom);
-        
-        Date dateTo = (Date) spDateFY.getValue();
-        RowFilter<AbstractTableModel,Object> filterDateTo = RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, dateTo, 3);
-        alFilter.add(filterDateTo);
-        
+        if(!"X".equals(btnDate.getText())){
+            Date dateFrom = (Date) spDateFX.getValue();
+            RowFilter<AbstractTableModel,Object> filterDateFrom = RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, dateFrom, 3);
+            alFilter.add(filterDateFrom);
+
+            Date dateTo = (Date) spDateFY.getValue();
+            RowFilter<AbstractTableModel,Object> filterDateTo = RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, dateTo, 3);
+            alFilter.add(filterDateTo);
+        }
         RowFilter<AbstractTableModel,Object> filterAnd = RowFilter.andFilter(alFilter);
         sorter.setRowFilter(filterAnd);
     }//GEN-LAST:event_btnTimKiemActionPerformed
@@ -620,6 +673,8 @@ public class pnNew extends javax.swing.JPanel {
     private void btnNhapLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapLaiActionPerformed
         // TODO add your handling code here:
         this.resetForm();
+        
+        tfName.requestFocus();
     }//GEN-LAST:event_btnNhapLaiActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -649,6 +704,45 @@ public class pnNew extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
+    private void btnNhapLaiFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapLaiFActionPerformed
+        // TODO add your handling code here:
+        tfIDF.setText("");
+        tfNameF.setText("");
+        controllerCat.loadCategory(cbDanhMucF, true, null);
+        spDateFX.setValue(new Date());
+        spDateFY.setValue(new Date());
+        
+        tfIDF.requestFocus();
+    }//GEN-LAST:event_btnNhapLaiFActionPerformed
+
+    private void btnThoatFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatFActionPerformed
+        // TODO add your handling code here:
+        this.TopRight.setVisible(false);
+    }//GEN-LAST:event_btnThoatFActionPerformed
+
+    private void btnDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDateActionPerformed
+        // TODO add your handling code here:
+        if("V".equals(btnDate.getText())){
+            btnDate.setText("X");
+            btnDate.setForeground(Color.RED);
+            spDateFX.setEnabled(false);
+            spDateFY.setEnabled(false);
+        }else{
+            btnDate.setText("V");
+            btnDate.setForeground(Color.GREEN);
+            spDateFX.setEnabled(true);
+            spDateFY.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnDateActionPerformed
+
+    private void btnEkitEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEkitEditorActionPerformed
+        // TODO add your handling code here:
+        jScrollPane3.add(ekitCore.getToolBarMain(true));
+        jScrollPane3.add(ekitCore.getToolBarFormat(true));
+        jScrollPane3.add(ekitCore.getToolBarStyles(true));
+        jScrollPane3.add(ekitCore);
+    }//GEN-LAST:event_btnEkitEditorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BottomRight;
@@ -657,16 +751,16 @@ public class pnNew extends javax.swing.JPanel {
     private javax.swing.JPanel TopRight;
     private javax.swing.JButton btThem;
     private javax.swing.JButton btnDate;
+    private javax.swing.JButton btnEkitEditor;
     private javax.swing.JButton btnNhapLai;
+    private javax.swing.JButton btnNhapLaiF;
     private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThoatF;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnUpload;
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox cbDanhMuc;
     private javax.swing.JComboBox cbDanhMucF;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
